@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OUTFIT PRINT MACHINE v3</title>
+<title>PROMPT ARCHIVE 2004</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body data-theme="blue">
@@ -37,10 +37,10 @@
               <span class="archive-star">★</span>
               <span>PROMPT ARCHIVE 2004</span>
             </div>
-            <div class="archive-desc">OUTFIT RANDOMIZER / NOVELAI TAG PRINTER</div>
+            <div class="archive-desc">OUTFIT RANDOMIZER</div>
           </div>
           <div class="identity-right">
-            <button class="help-btn" id="helpBtn" aria-label="How to use">?</button>
+            <button class="help-btn" id="helpBtn" aria-label="How to use">❓︎</button>
           </div>
         </div>
 
@@ -48,16 +48,26 @@
           <div class="screen">
             <div class="screen-header">
               <div class="screen-title">STYLE MIXER</div>
-              <div class="status" id="status">READY · SLOT 01</div>
+              <div class="screen-tools">
+                <button class="language-toggle" id="settingsLanguage" type="button" aria-pressed="false">한글 보기</button>
+                <div class="status" id="status">READY · SLOT 01</div>
+              </div>
             </div>
 
             <div class="control-grid">
               <div class="module">
                 <h3>01 / GENERATOR SETTINGS</h3>
 
-                <div class="field"><label>COLOR</label>
-                  <select id="color"><option>black</option><option>white</option><option>brown</option><option>blue</option><option>pink</option><option>gray</option><option>red</option><option>green</option><option>purple</option><option>beige</option></select>
+                <div class="field"><label>BASE COLOR</label>
+                  <select id="color"><option value="black">black</option><option value="white">white</option><option value="brown">brown</option><option value="blue">blue</option><option value="pink">pink</option><option value="gray">gray</option><option value="red">red</option><option value="green">green</option><option value="purple">purple</option><option value="beige">beige</option></select>
+                  <button class="reroll-field-btn" data-reroll="color" aria-label="BASE COLOR만 랜덤 선택" data-tooltip="BASE COLOR만 랜덤 선택">🎲</button>
                   <button class="lock-btn" data-lock="color">◇</button>
+                </div>
+
+                <div class="field"><label>ACCENT COLOR</label>
+                  <select id="accentColor"><option value="none">None</option><option value="black">black</option><option value="white">white</option><option value="brown">brown</option><option value="blue">blue</option><option value="pink">pink</option><option value="gray">gray</option><option value="red">red</option><option value="green">green</option><option value="purple">purple</option><option value="beige">beige</option></select>
+                  <button class="reroll-field-btn" data-reroll="accentColor" aria-label="ACCENT COLOR만 랜덤 선택" data-tooltip="ACCENT COLOR만 랜덤 선택">🎲</button>
+                  <button class="lock-btn" data-lock="accentColor">◇</button>
                 </div>
 
                 <div class="field"><label>MAIN STYLE</label>
@@ -66,63 +76,87 @@
                     <option value="cyber">Cyber Y2K</option><option value="metal">Metal Gothic</option><option value="aviator">Aviator</option>
                     <option value="animal">Animal Street</option><option value="angel">Cyber Angel</option><option value="doll">Doll Goth</option>
                     <option value="webcore">Webcore</option><option value="winter">Winter Utility</option><option value="sport">Sport Tech</option>
-                    <option value="mcbling">McBling Y2K</option><option value="acubi">Acubi Tech</option>
-                    <option value="visualkei">Visual Kei</option><option value="rave">Cyber Rave</option>
+                    <option value="mcbling">McBling Y2K</option><option value="acubi">Acubi Tech</option><option value="visualkei">Visual Kei</option><option value="rave">Cyber Rave</option>
                   </select>
+                  <button class="reroll-field-btn" data-reroll="mainStyle" aria-label="MAIN STYLE만 랜덤 선택" data-tooltip="MAIN STYLE만 랜덤 선택">🎲</button>
                   <button class="lock-btn" data-lock="mainStyle">◇</button>
                 </div>
 
-                <div class="field"><label>HEAD PIECE</label>
-                  <select id="heroMode">
-                    <option value="random">Random</option>
-                    <option value="none">None</option>
-                    <option value="headset">Headset</option>
-                    <option value="hood">Animal Hood</option>
-                    <option value="goggles">Goggles</option>
-                    <option value="halo">Halo</option>
-                    <option value="horns">Horns</option>
-                    <option value="visor">Visor</option>
-                    <option value="beanie">Beanie</option>
-                  </select>
+                <div class="field"><label id="heroModeLabel">HEAD PIECE</label>
+                  <div class="multi-select" data-multi="heroMode">
+                    <button class="multi-toggle" id="heroModeToggle" type="button" aria-expanded="false" aria-controls="heroModeMenu"><span class="multi-summary">전체 머리 장식</span></button>
+                    <div class="multi-menu" id="heroModeMenu" role="group" aria-labelledby="heroModeLabel" hidden>
+                      <button class="selection-mode" type="button" data-mode-group="heroMode" aria-pressed="true">＋ 함께 사용</button>
+                      <label class="check-option"><input type="checkbox" value="headset" data-label="Headset" checked><span>Headset</span></label>
+                      <label class="check-option"><input type="checkbox" value="hood" data-label="Animal Hood"><span>Animal Hood</span></label>
+                      <label class="check-option"><input type="checkbox" value="goggles" data-label="Goggles"><span>Goggles</span></label>
+                      <label class="check-option"><input type="checkbox" value="halo" data-label="Halo"><span>Halo</span></label>
+                      <label class="check-option"><input type="checkbox" value="horns" data-label="Horns"><span>Horns</span></label>
+                      <label class="check-option"><input type="checkbox" value="visor" data-label="Visor"><span>Visor</span></label>
+                      <label class="check-option"><input type="checkbox" value="beanie" data-label="Beanie"><span>Beanie</span></label>
+                      <label class="check-option"><input type="checkbox" value="wings" data-label="Head Wings"><span>Head Wings</span></label>
+                      <label class="check-option"><input type="checkbox" value="none" data-label="None"><span>None</span></label>
+                    </div>
+                  </div>
+                  <button class="reroll-field-btn" data-reroll="heroMode" aria-label="HEAD PIECE만 랜덤 선택" data-tooltip="HEAD PIECE만 랜덤 선택">🎲</button>
                   <button class="lock-btn" data-lock="heroMode">◇</button>
+                </div>
+
+                <div class="field"><label>BACK PIECE</label>
+                  <select id="backPiece">
+                    <option value="none">None</option><option value="random">Random</option>
+                    <option value="angel">Angel Wings</option><option value="demon">Demon Wings</option><option value="fairy">Fairy Wings</option>
+                    <option value="butterfly">Butterfly Wings</option><option value="mech">Mechanical Wings</option><option value="waist">Waist Wings</option><option value="cape">Cape</option>
+                  </select>
+                  <button class="reroll-field-btn" data-reroll="backPiece" aria-label="BACK PIECE만 랜덤 선택" data-tooltip="BACK PIECE만 랜덤 선택">🎲</button>
+                  <button class="lock-btn" data-lock="backPiece">◇</button>
+                </div>
+
+                <div class="field"><label>BOTTOM</label>
+                  <select id="bottomType">
+                    <option value="any">Random</option><option value="skirt">Skirt</option><option value="pants">Pants</option>
+                  </select>
+                  <button class="reroll-field-btn" data-reroll="bottomType" aria-label="BOTTOM만 랜덤 선택" data-tooltip="BOTTOM만 랜덤 선택">🎲</button>
+                  <button class="lock-btn" data-lock="bottomType">◇</button>
+                </div>
+
+                <div class="field"><label>ANIMAL</label>
+                  <div class="animal-control">
+                    <select id="animal">
+                      <option value="random">Random / Optional</option><option value="none">None</option><option value="rabbit">Rabbit</option>
+                      <option value="cat">Cat</option><option value="dog">Dog</option><option value="hamster">Hamster</option><option value="bear">Bear</option><option value="custom">Other</option>
+                    </select>
+                    <div class="animal-inline-editor" id="animalInlineEditor" hidden>
+                      <input id="animalCustom" type="text" aria-label="직접 입력할 동물 이름" placeholder="fox, deer, wolf..." autocomplete="off">
+                    </div>
+                  </div>
+                  <button class="reroll-field-btn" data-reroll="animal" aria-label="ANIMAL만 랜덤 선택" data-tooltip="ANIMAL만 랜덤 선택">🎲</button>
+                  <button class="lock-btn" data-lock="animal">◇</button>
+                </div>
+
+                <div class="field"><label>OTHER</label>
+                  <input class="custom-input" id="customAdd" placeholder="ribbons, chains, stickers..." autocomplete="off">
+                  <button class="reroll-field-btn" data-reroll="customAdd" aria-label="OTHER만 랜덤 선택" data-tooltip="OTHER만 랜덤 선택">🎲</button>
+                  <button class="lock-btn" data-lock="customAdd">◇</button>
                 </div>
 
                 <div class="field"><label>COMPLEXITY</label>
                   <select id="complexity"><option value="medium">Medium</option><option value="simple">Simple</option><option value="max">Max</option><option value="random">Random</option></select>
+                  <button class="reroll-field-btn" data-reroll="complexity" aria-label="COMPLEXITY만 랜덤 선택" data-tooltip="COMPLEXITY만 랜덤 선택">🎲</button>
                   <button class="lock-btn" data-lock="complexity">◇</button>
-                </div>
-
-                <div class="field"><label>ANIMAL</label>
-                  <select id="animal">
-                    <option value="random">Random / Optional</option>
-                    <option value="none">None</option>
-                    <option value="rabbit">Rabbit</option>
-                    <option value="cat">Cat</option>
-                    <option value="dog">Dog</option>
-                    <option value="hamster">Hamster</option>
-                    <option value="bear">Bear</option>
-                    <option value="custom">Other...</option>
-                  </select>
-                  <button class="lock-btn" data-lock="animal">◇</button>
-                </div>
-
-                <div class="field animal-custom-row" id="animalCustomRow" hidden><label>ANIMAL NAME</label>
-                  <input class="custom-input" id="animalCustom" placeholder="fox, sheep, mouse..." autocomplete="off">
-                  <span></span>
-                </div>
-
-                <div class="field"><label>OTHER</label>
-                  <input class="custom-input" id="customAdd" placeholder="wings, ribbons, chains..." autocomplete="off">
-                  <button class="clear-btn" id="clearCustom" title="Clear">×</button>
                 </div>
               </div>
 
               <div class="module">
-                <h3>02 / HEAD PREVIEW</h3>
+                <h3>02 / PREVIEW</h3>
                 <div class="hero-display">
-                  <div class="hero-icon" id="heroIcon">🎧</div>
-                  <div class="hero-name" id="heroName">HEADSET MODE</div>
-                  <div class="hero-sub" id="heroSub">statement accessory selected</div>
+                  <div class="hero-single" id="heroSingle">
+                    <div class="hero-icon" id="heroIcon">🎧</div>
+                    <div class="hero-name" id="heroName">HEADSET MODE</div>
+                    <div class="hero-sub" id="heroSub">statement accessory selected</div>
+                  </div>
+                  <div class="hero-stack" id="heroStack" hidden></div>
+                  <div class="preview-colors" id="previewColors"></div>
                 </div>
               </div>
             </div>
@@ -156,7 +190,7 @@
             <div class="tear-label">✂ DRAG TO TEAR</div>
           </div>
           <div class="receipt-head">
-            <div><div class="receipt-title">OUTFIT RECEIPT</div><div style="font-size:11px;color:#888;margin-top:5px">NOVELAI TAG OUTPUT / SINGLE COLOR SYSTEM</div></div>
+            <div><div class="receipt-title">OUTFIT RECEIPT</div><div style="font-size:11px;color:#888;margin-top:5px">NOVELAI TAG OUTPUT / BASE + OPTIONAL ACCENT</div></div>
             <div class="receipt-meta" id="meta">MACHINE NO. 002<br>PRINT ID: 0001<br>STATUS: READY</div>
           </div>
           <div class="prompt-label">PRINTED PROMPT</div>
@@ -182,11 +216,11 @@
     </div>
     <div class="help-screen">
       <div class="help-inner">
-        <div class="help-step"><div class="step-no">STEP 01</div><h4>기본 조건 선택</h4><p>COLOR, MAIN STYLE, HEAD PIECE, COMPLEXITY, ANIMAL을 고른다. OTHER에는 ribbons, horns처럼 기본 선택지에 없는 추가 태그만 직접 입력한다.</p></div>
-        <div class="help-step"><div class="step-no">STEP 02</div><h4>◇ 버튼으로 잠금</h4><p>옆의 ◇를 누르면 ◆로 바뀌며 해당 선택 항목이 잠긴다. SHUFFLE을 눌러도 잠긴 항목은 유지된다.</p></div>
-        <div class="help-step"><div class="step-no">STEP 03</div><h4>PRINT OUTFIT</h4><p>호환되는 스타일·상의·하의·신발·액세서리를 조합한 뒤, 출력구가 작동하며 프롬프트 종이가 단계적으로 실제 인쇄되듯 내려온다.</p></div>
-        <div class="help-step"><div class="step-no">STEP 04</div><h4>결과 사용</h4><p>COPY로 바로 복사하거나 SAVE .TXT로 저장. REPRINT는 현재 설정을 유지한 채 새 조합을 다시 출력한다.</p></div>
-        <div class="tip"><b>TIP.</b> 색상 이름은 맨 앞에 한 번만 출력된다. ANIMAL의 Other...를 선택하면 직접 동물 이름을 입력할 수 있다. OTHER에는 wings, ribbons, chains처럼 기본 선택지에 없는 영어 태그를 쉼표로 추가할 수 있다.</div>
+        <p class="help-intro">Y2K 의상 태그를 랜덤 조합해 NovelAI 프롬프트로 출력하는 장치.</p>
+        <div class="help-step"><div class="step-no">STEP 01</div><h4>고르기</h4><p>각 줄에서 원하는 값을 고름.<br>안 쓸 항목은 None.</p></div>
+        <div class="help-step"><div class="step-no">STEP 02</div><h4>섞기</h4><p>🎲는 그 줄만 랜덤.<br>SHUFFLE은 전부 랜덤.<br>◇로 잠그면(◆) 섞어도 안 바뀜.</p></div>
+        <div class="help-step"><div class="step-no">STEP 03</div><h4>복사하기</h4><p>출력된 프롬프트를 COPY로 복사.<br>NovelAI에 붙여넣으면 끝.</p></div>
+        <div class="help-step"><div class="step-no">STEP 04</div><h4>COMPLEXITY</h4><p>출력되는 태그의 양.<br>Simple은 적고 깔끔하게.<br>Max는 옷마다 전용 디테일까지 붙음.</p></div>
       </div>
     </div>
     <div class="help-actions"><button class="big-btn primary" id="okHelp">OK, START MIXING</button></div>
