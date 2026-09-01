@@ -128,7 +128,15 @@ black, cyber y2k streetwear, technical baggy silhouette, cropped technical jacke
 2. `index.html`을 웹 브라우저에서 엽니다.
 3. 원하는 조건을 선택하고 `PRINT OUTFIT`을 누릅니다.
 
-정적 HTML 파일 하나로 동작하므로 GitHub Pages에도 바로 게시할 수 있습니다.
+별도의 빌드 과정이 없는 정적 웹 프로젝트이므로 GitHub Pages에도 바로 게시할 수 있습니다.
+
+```text
+PromptArchive-2004/
+├── index.html   # 화면 구조
+├── styles.css   # 테마와 인터페이스 스타일
+├── data.js      # 의상 데이터와 호환 규칙
+└── app.js       # 프롬프트 생성 및 화면 동작
+```
 
 ## 기술 구성
 
