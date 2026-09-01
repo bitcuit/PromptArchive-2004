@@ -352,6 +352,11 @@ const itemDetails={
   "oversized platform shoes":["extra wide sole flare","padded bulky upper"]
 };
 
+// itemDetails is keyed by garment strings; warn in console if a label edit breaks a link.
+Object.values(styles).forEach(style=>["tops","bottoms","shoes"].forEach(cat=>style[cat].forEach(item=>{
+  if(!itemDetails[item]) console.warn("[data] itemDetails missing:",item);
+})));
+
 const animals={
   rabbit:["rabbit themed outfit","long drooping proportions"],
   cat:["cat themed outfit","slim sharp proportions"],
@@ -360,22 +365,20 @@ const animals={
   bear:["bear themed outfit","bulky cozy proportions"]
 };
 
-const customAnimalNames=[
-  {en:"fox",ko:"여우"},{en:"sheep",ko:"양"},{en:"mouse",ko:"생쥐"},{en:"deer",ko:"사슴"},{en:"wolf",ko:"늑대"},
-  {en:"otter",ko:"수달"},{en:"raccoon",ko:"너구리"},{en:"bat",ko:"박쥐"},{en:"bunny",ko:"아기 토끼"},{en:"panda",ko:"판다"}
-];
+// Identity only — Korean labels live in app.js settingTranslations, keyed by these ids.
+const customAnimalNames=["fox","sheep","mouse","deer","wolf","otter","raccoon","bat","bunny","panda"];
 // OTHER-only schema. Similar motifs stay distinct when their placement or role differs.
 const shuffleAddOns=[
-  {tag:"back-mounted fabric wings",ko:"등에 다는 천 날개",role:"back"},
-  {tag:"wing-shaped hair clips",ko:"날개 모양 머리핀",role:"head"},
-  {tag:"asymmetric hip tassels",ko:"비대칭 허리 태슬",role:"waist"},
-  {tag:"transparent vinyl pockets",ko:"투명 비닐 주머니",role:"garment"},
-  {tag:"oversized safety-pin jewelry",ko:"대형 옷핀 장신구",role:"jewelry"},
-  {tag:"detachable sleeve panels",ko:"탈착식 소매 패널",role:"arms"},
-  {tag:"layered waist drapes",ko:"겹친 허리 드레이프",role:"waist"},
-  {tag:"decorative carabiner cluster",ko:"장식용 카라비너 묶음",role:"hardware"},
-  {tag:"shoulder capelet",ko:"어깨 케이프",role:"shoulders"},
-  {tag:"body chain jewelry",ko:"바디 체인 장신구",role:"body"}
+  {id:"fabricWings",tag:"back-mounted fabric wings",role:"back"},
+  {id:"wingHairClips",tag:"wing-shaped hair clips",role:"head"},
+  {id:"hipTassels",tag:"asymmetric hip tassels",role:"waist"},
+  {id:"vinylPockets",tag:"transparent vinyl pockets",role:"garment"},
+  {id:"safetyPinJewelry",tag:"oversized safety-pin jewelry",role:"jewelry"},
+  {id:"sleevePanels",tag:"detachable sleeve panels",role:"arms"},
+  {id:"waistDrapes",tag:"layered waist drapes",role:"waist"},
+  {id:"carabinerCluster",tag:"decorative carabiner cluster",role:"hardware"},
+  {id:"shoulderCapelet",tag:"shoulder capelet",role:"shoulders"},
+  {id:"bodyChain",tag:"body chain jewelry",role:"body"}
 ];
 
 const legwear=["leg warmers","thigh straps","loose socks","striped socks","garter straps","knee straps","layered stockings","scrunched socks","mesh leg panels"];

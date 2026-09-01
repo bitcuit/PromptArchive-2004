@@ -18,8 +18,8 @@ function parseAddOns(){
 let printId=1;
 const locks={color:false,accentColor:false,mainStyle:false,heroMode:false,backPiece:false,bottomType:false,complexity:false,animal:false,customAdd:false};
 let heroMode="all";
-let customAnimalValue={en:"",ko:""};
-let customAnimalIsPreset=true;
+// id is set when the value came from customAnimalNames; null means user-typed text.
+let customAnimalValue={id:null,text:""};
 let generatedOtherItems=[];
 let settingsLanguage="en";
 
@@ -118,15 +118,15 @@ function randomizeField(key){
   if(key==="bottomType") $("#bottomType").value=pick(["any","skirt","pants"]);
   if(key==="animal"){
     if($("#animal").value==="custom"){
-      customAnimalValue=pick(customAnimalNames);
-      customAnimalIsPreset=true;
+      const id=pick(customAnimalNames);
+      customAnimalValue={id,text:id};
       renderAnimalInput();
     }else{
       const value=Math.random()<.18?"custom":Math.random()<.45?pick(Object.keys(animals)):"none";
       $("#animal").value=value;
       if(value==="custom"){
-        customAnimalValue=pick(customAnimalNames);
-        customAnimalIsPreset=true;
+        const id=pick(customAnimalNames);
+        customAnimalValue={id,text:id};
       }
       updateAnimalChoiceLabel();
       syncAnimalControl();
@@ -167,8 +167,8 @@ function generate(){
   const complexity=resolveComplexity();
   let animalKey=$("#animal").value;
   if(animalKey==="random") animalKey=Math.random()<.36?pick(Object.keys(animals)):"none";
-  if(animalKey==="custom" && !customAnimalValue.en.trim()) animalKey="none";
-  const customAnimal=animalKey==="custom"?customAnimalValue.en.trim():"";
+  if(animalKey==="custom" && !customAnimalValue.text.trim()) animalKey="none";
+  const customAnimal=animalKey==="custom"?customAnimalValue.text.trim():"";
   let backKey=$("#backPiece").value;
   if(backKey==="random") backKey=Math.random()<.33?pick(Object.keys(backPieces).filter(k=>k!=="none")):"none";
   const bottomPref=$("#bottomType").value;
@@ -454,8 +454,8 @@ function buildCustomSelect(select){
 
 $("#animal").addEventListener("change",()=>{
   if($("#animal").value==="custom"){
-    customAnimalValue={en:"",ko:""};
-    customAnimalIsPreset=true;
+    customAnimalValue={id:null,text:""};
+    $("#animalCustom").value="";
   }
   updateAnimalChoiceLabel();
   syncAnimalControl();
@@ -487,6 +487,12 @@ const settingTranslations={
     complexity:{medium:"보통",simple:"간단",max:"최대",random:"랜덤"},
     animal:{random:"랜덤 / 선택 사항",none:"없음",rabbit:"토끼",cat:"고양이",dog:"강아지",hamster:"햄스터",bear:"곰",custom:"기타"}
   },
+  customAnimals:{fox:"여우",sheep:"양",mouse:"생쥐",deer:"사슴",wolf:"늑대",otter:"수달",raccoon:"너구리",bat:"박쥐",bunny:"아기 토끼",panda:"판다"},
+  addOns:{
+    fabricWings:"등에 다는 천 날개",wingHairClips:"날개 모양 머리핀",hipTassels:"비대칭 허리 태슬",
+    vinylPockets:"투명 비닐 주머니",safetyPinJewelry:"대형 옷핀 장신구",sleevePanels:"탈착식 소매 패널",
+    waistDrapes:"겹친 허리 드레이프",carabinerCluster:"장식용 카라비너 묶음",shoulderCapelet:"어깨 케이프",bodyChain:"바디 체인 장신구"
+  },
   heroPreview:{
     none:{name:"머리 장식 없음",sub:"깔끔한 머리 실루엣"},
     headset:{name:"헤드셋",sub:"오디오 포인트 머리 장식"},
@@ -504,8 +510,9 @@ function updateAnimalChoiceLabel(){
   option.textContent=settingsLanguage==="ko"?"기타":"Other";
 }
 function renderAnimalInput(){
-  if(!customAnimalIsPreset) return;
-  $("#animalCustom").value=settingsLanguage==="ko"?customAnimalValue.ko:customAnimalValue.en;
+  if(!customAnimalValue.id) return;
+  const id=customAnimalValue.id;
+  $("#animalCustom").value=settingsLanguage==="ko"?(settingTranslations.customAnimals[id]||id):id;
 }
 function syncAnimalControl(){
   const custom=$("#animal").value==="custom";
@@ -521,7 +528,7 @@ function renderOtherInput(){
     return;
   }
   $("#customAdd").dataset.generated="true";
-  $("#customAdd").value=generatedOtherItems.map(item=>settingsLanguage==="ko"?item.ko:item.tag).join(", ");
+  $("#customAdd").value=generatedOtherItems.map(item=>settingsLanguage==="ko"?(settingTranslations.addOns[item.id]||item.tag):item.tag).join(", ");
 }
 function settingLabel(group,value){
   if(settingsLanguage==="ko") return settingTranslations.values[group]?.[value]||value;
@@ -578,9 +585,7 @@ $("#customAdd").addEventListener("input",()=>{
   }
 });
 $("#animalCustom").addEventListener("input",()=>{
-  const value=$("#animalCustom").value.trim();
-  customAnimalValue={en:value,ko:value};
-  customAnimalIsPreset=false;
+  customAnimalValue={id:null,text:$("#animalCustom").value.trim()};
 });
 // Clicking the arrow area of the custom-animal input returns to the choice list.
 $("#animalCustom").addEventListener("click",event=>{
